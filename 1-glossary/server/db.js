@@ -24,23 +24,27 @@ module.exports.readTerms = () => {
     .catch(err => {console.log(err)});
 }
 
-module.exports.updateTerm = (term, newDefinition) => {
+module.exports.updateTerm = (_id, term, newDefinition) => {
   //update word with a new definiton
-  return new Promise(() => {
-    return Terms.findOneandUpdate({term}, {definition: newDefinition});
-  })
-  .catch(err => {console.log(err)});
+
+  return new Promise((resolve, reject) => {
+    resolve(Terms.updateOne({_id: _id},
+      {term: term, definition: newDefinition}));
+  });
+
 }
 
 module.exports.deleteTerm = (term) => {
     // delete word
-    return new Promise(() => {
-      return Terms.deleteOne({term});
+    return new Promise((resolve, reject) => {
+      let deletedCount = Terms.deleteOne({term});
+      resolve(deletedCount);
     })
     .then(success => {
       console.log(success.deletedCount);
-    })
-    .catch(err => {console.log(err)});
+      return;
+    });
+
 }
 
 

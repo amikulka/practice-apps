@@ -21,6 +21,41 @@ app.get('/terms', (req, res) => {
       res.status(200)
       res.send(err);
     })
+});
+
+app.put('/terms', (req, res) => {
+  console.log(req.body);
+  let {_id, term, definition} = req.body;
+  db.updateTerm(_id, term, definition)
+    .then(() => {
+      res.status(202).send();
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    })
+
+});
+
+app.post('/terms', (req, res) => {
+  let {term, definition} = req.body;
+  db.addTerm(term, definition)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+})
+
+app.delete('/terms', (req, res) => {
+  let {term} = req.body;
+  db.deleteTerm(term)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 })
 /****
  *
