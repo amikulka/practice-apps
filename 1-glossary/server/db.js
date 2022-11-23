@@ -34,10 +34,10 @@ module.exports.updateTerm = (_id, term, newDefinition) => {
 
 }
 
-module.exports.deleteTerm = (term) => {
+module.exports.deleteTerm = (_id) => {
     // delete word
     return new Promise((resolve, reject) => {
-      let deletedCount = Terms.deleteOne({term});
+      let deletedCount = Terms.deleteOne({_id});
       resolve(deletedCount);
     })
     .then(success => {

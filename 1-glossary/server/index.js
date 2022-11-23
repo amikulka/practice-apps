@@ -48,8 +48,8 @@ app.post('/terms', (req, res) => {
 })
 
 app.delete('/terms', (req, res) => {
-  let {term} = req.body;
-  db.deleteTerm(term)
+  let {_id} = req.body;
+  db.deleteTerm(_id)
     .then(() => {
       res.status(200).send();
     })
