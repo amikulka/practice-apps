@@ -24,12 +24,12 @@ module.exports.readTerms = () => {
     .catch(err => {console.log(err)});
 }
 
-module.exports.updateTerm = (_id, term, newDefinition) => {
+module.exports.updateTerm = (_id, newTerm, newDefinition) => {
   //update word with a new definiton
 
   return new Promise((resolve, reject) => {
     resolve(Terms.updateOne({_id: _id},
-      {term: term, definition: newDefinition}));
+      {term: newTerm, definition: newDefinition}));
   });
 
 }

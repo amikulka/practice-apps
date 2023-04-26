@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import { render } from "react-dom";
 
 import AddTermForm from "./components/AddTermForm.jsx";
@@ -17,28 +18,58 @@ function App() {
   }]);
 
   function addTerm(term, definition) {
-    //POST
+    axios.post('/terms', {term, definition})
+    .then(() => {
+      retrieveTerms();
+    })
+    .catch(err => {
+      console.long(err);
+    });
   }
 
   function retrieveTerms() {
     //GET
+    axios.get('/terms')
+      .then(results => {
+        setTerms(results.data.reverse());
+      })
+      .catch(err => {
+        console.log(err)
+      });
   }
 
-  function editTerm(term, newDefinition) {
-    //PUT
+  function editTerm(_id, newTerm, newDefinition) {
+
+    axios.put('/terms', {_id, newTerm, newDefinition})
+      .then(() => {
+        retrieveTerms();
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   function removeTerm(term) {
     //DELETE
+    let {_id} = term;
+    axios.delete('/terms', {data: {_id}})
+      .then(() => {
+        retrieveTerms();
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
-
+  useEffect(() => {
+    retrieveTerms();
+  }, []);
 
   return (
-    <div>
-      <header>My Glossary</header>
-      <AddTermForm />
-      <TermList terms={terms} />
+    <div className='appDiv'>
+      <header>Terminology</header>
+      <AddTermForm addTerm={addTerm} />
+      <TermList terms={terms} editTerm={editTerm} removeTerm={removeTerm} />
     </div>
   )
 }

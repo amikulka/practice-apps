@@ -24,9 +24,9 @@ app.get('/terms', (req, res) => {
 });
 
 app.put('/terms', (req, res) => {
-  console.log(req.body);
-  let {_id, term, definition} = req.body;
-  db.updateTerm(_id, term, definition)
+
+  let {_id, newTerm, newDefinition} = req.body;
+  db.updateTerm(_id, newTerm, newDefinition)
     .then(() => {
       res.status(202).send();
     })

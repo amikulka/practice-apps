@@ -1,15 +1,12 @@
 import React from 'react';
 import TermListItem from './TermListItem.jsx';
 
-function TermList({terms}) {
- console.log(terms);
+function TermList({terms, editTerm, removeTerm}) {
   return (
-    <div>
-      <div>
+    <div className='termList'>
       {terms.map(term => {
-        return <TermListItem key={term._id} term={term} />;
+        return <TermListItem key={term['_id']} term={term} editTerm={editTerm} removeTerm={removeTerm} />;
       })}
-      </div>
     </div>
   );
 }

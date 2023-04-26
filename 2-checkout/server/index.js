@@ -16,16 +16,71 @@ app.use(sessionHandler);
 // Logs the time, session_id, method, and url of incoming requests.
 app.use(logger);
 
+app.use(express.json());
+
 // Serves up all static and generated assets in ../client/dist.
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-/**** 
- * 
- * 
- * Other routes here....
- *
- * 
- */
+
+
+
+app.post('/session', (req, res) => {
+  console.log(req.session_id);
+  //call setSessionId on database
+  db.addSession(req.session_id)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send();
+    });
+});
+
+app.get('/customer', (req, res) => {
+  db.getCustomer(req.session_id)
+    .then((customerInfo) => {
+      res.status(200).send(customerInfo)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send();
+    })
+})
+
+app.put('/updateLogin', (req, res) => {
+  console.log(req.body);
+  db.updateLogin(req.body)
+    .then(() => {
+      res.status(201).send();
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send();
+    })
+})
+
+app.put('/updateAddress', (req, res) => {
+  db.updateAddress(req.body)
+    .then(() => {
+      res.status(201).send();
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send();
+    })
+})
+
+app.put('/updateBilling', (req, res) => {
+  db.updateBilling(req.body)
+    .then(() => {
+      res.status(201).send();
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send();
+    })
+})
 
 app.listen(process.env.PORT);
 console.log(`Listening at http://localhost:${process.env.PORT}`);

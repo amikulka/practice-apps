@@ -1,7 +1,7 @@
 import React from 'react';
 const {useState} = React;
 
-function AddTermForm () {
+function AddTermForm ({addTerm}) {
 const [termInput, setTermInput] = useState('');
 const [defInput, setDefInput] = useState('');
 
@@ -15,8 +15,9 @@ function handleDefChange(e) {
 }
 function handleSubmit(e) {
   e.preventDefault();
+  if (termInput === '' || defInput === '') return;
   // call prop function to send post request
-
+  addTerm(termInput, defInput);
   setTermInput('');
   setDefInput('');
 
@@ -24,10 +25,10 @@ function handleSubmit(e) {
 
   return (
     <div>
-      <form>
-        <input type='text' onChange={handleTermChange} value={termInput}></input>
-        <input type='text' onChange={handleDefChange} value={defInput}></input>
-        <button type='submit' onClick={handleSubmit}>ADD TERM</button>
+      <form className='addTermForm'>
+        <input className='termTextInput' type='text' onChange={handleTermChange} value={termInput} placeholder='Enter Term'></input>
+        <textarea className='defTextInput' type='text' onChange={handleDefChange} value={defInput} placeholder='Enter Definition'></textarea>
+        <button className='addTermButton' type='submit' onClick={handleSubmit}>ADD TERM</button>
       </form>
     </div>
   );
